@@ -15,7 +15,6 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-    enableMixinAp = true
     version = project.neo_version
     parchment {
         mappingsVersion = project.parchment_mappings_version
@@ -48,6 +47,7 @@ repositories {
 }
 
 dependencies {
+    implementation "org.spongepowered:mixin:0.8.5"
     implementation "net.neoforged:neoforge:${neo_version}"
     implementation "team-twilight:twilightforest:4.8.3345:universal"
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
