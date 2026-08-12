@@ -41,12 +41,12 @@ neoForge {
             sourceSet(sourceSets.main)
         }
     }
+}
 
-    // ✅ 关键：Mixin 配置块（旅行者模组就是这样配置的）
-    mixin {
-        config "${mod_id}.mixins.json"
-        refmapName "${mod_id}.refmap.json"
-    }
+// ✅ 正确的顶级 mixin 配置（与 neoForge 平级）
+mixin {
+    config "${mod_id}.mixins.json"
+    refmapName "${mod_id}.refmap.json"
 }
 
 repositories {
