@@ -22,6 +22,8 @@ neoForge {
         minecraftVersion = project.parchment_minecraft_version
     }
 
+    enableMixinAp = true
+
     runs {
         client { client() }
         server { server() }
@@ -60,7 +62,7 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     
-    // Mixin annotation processor
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
