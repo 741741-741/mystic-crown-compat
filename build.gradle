@@ -15,6 +15,7 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
+    enableMixinAp = true
     version = project.neo_version
     parchment {
         mappingsVersion = project.parchment_mappings_version
