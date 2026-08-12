@@ -1,6 +1,6 @@
 package com._741741.mysticcrowncompat.mixin;
 
-import com._741741.mysticcrowncompat.compat.CuriosMixinUtil;
+import com._741741.mysticcrowncompat.mixin.CuriosMixinUtil;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
