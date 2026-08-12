@@ -1,4 +1,4 @@
-package com.741741.mysticcrowncompat;
+package com._741741.mysticcrowncompat;
 
 import java.util.List;
 import java.util.Set;
