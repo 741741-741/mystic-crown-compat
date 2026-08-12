@@ -6,7 +6,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotContext;
@@ -18,9 +21,11 @@ import java.util.Optional;
 
 @EventBusSubscriber(modid = MysticCrownCompat.MODID)
 public class CuriosCompat {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CuriosCompat.class);
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        LOGGER.info("Mystic Crown Compat: Registering Mystic Crown as Curios item!");
         event.registerItem(
             CuriosCapability.ITEM,
             (stack, context) -> new ICurio() {
@@ -46,6 +51,7 @@ public class CuriosCompat {
             },
             TFItems.MYSTIC_CROWN.get()
         );
+        LOGGER.info("Mystic Crown Compat: Mystic Crown registered successfully!");
     }
 
     public static Optional<ItemStack> findMysticCrownInCurios(LivingEntity entity) {
