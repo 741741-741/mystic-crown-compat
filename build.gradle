@@ -16,6 +16,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
     version = project.neo_version
+
     parchment {
         mappingsVersion = project.parchment_mappings_version
         minecraftVersion = project.parchment_minecraft_version
@@ -39,6 +40,12 @@ neoForge {
         "${mod_id}" {
             sourceSet(sourceSets.main)
         }
+    }
+
+    // ✅ 关键：Mixin 配置块（旅行者模组就是这样配置的）
+    mixin {
+        config "${mod_id}.mixins.json"
+        refmapName "${mod_id}.refmap.json"
     }
 }
 
