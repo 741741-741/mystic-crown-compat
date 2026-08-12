@@ -44,9 +44,16 @@ neoForge {
 }
 
 repositories {
-    mavenCentral()
     maven {
         url = "https://maven.tamaized.com/releases"
+    }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
     }
     maven {
         name = "Curios"
@@ -55,20 +62,10 @@ repositories {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
     implementation "team-twilight:twilightforest:4.8.3345:universal"
-    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    runtimeOnly("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
-    
-    // 显式添加 Mixin 依赖和注解处理器
-    implementation 'org.spongepowered:mixin:0.8.5'
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    // 强制指定 refmap 文件名
-    options.compilerArgs << "-ArefmapName=${mod_id}.refmap.json"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -89,3 +86,14 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 }
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
