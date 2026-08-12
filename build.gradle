@@ -59,10 +59,9 @@ repositories {
 }
 
 dependencies {
+    implementation "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     implementation "team-twilight:twilightforest:4.8.3345:universal"
     runtimeOnly("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
-    compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
