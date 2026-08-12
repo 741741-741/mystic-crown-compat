@@ -60,7 +60,15 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     
-    implementation "org.spongepowered:mixin:0.8.5"
+    // 显式添加 Mixin 依赖和注解处理器
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // 强制指定 refmap 文件名
+    options.compilerArgs << "-ArefmapName=${mod_id}.refmap.json"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -81,8 +89,3 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 }
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << "-Averbose=true"
-}
