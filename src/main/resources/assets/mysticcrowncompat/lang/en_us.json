@@ -1,0 +1,13 @@
+{
+  "itemGroup.mysticcrowncompat": "Example Mod Tab",
+  "block.mysticcrowncompat.example_block": "Example Block",
+  "item.mysticcrowncompat.example_item": "Example Item",
+
+  "mysticcrowncompat.configuration.title": "Mystic Crown Compat Configs",
+  "mysticcrowncompat.configuration.section.mysticcrowncompat.common.toml": "Mystic Crown Compat Configs",
+  "mysticcrowncompat.configuration.section.mysticcrowncompat.common.toml.title": "Mystic Crown Compat Configs",
+  "mysticcrowncompat.configuration.items": "Item List",
+  "mysticcrowncompat.configuration.logDirtBlock": "Log Dirt Block",
+  "mysticcrowncompat.configuration.magicNumberIntroduction": "Magic Number Text",
+  "mysticcrowncompat.configuration.magicNumber": "Magic Number"
+}
