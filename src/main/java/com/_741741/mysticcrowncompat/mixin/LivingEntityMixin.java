@@ -11,7 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Inject(method = "getItemBySlot", at = @At("RETURN"), cancellable = true)
+    @Inject(
+        method = "getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;",
+        at = @At("RETURN"),
+        cancellable = true
+    )
     private void onGetItemBySlot(EquipmentSlot slot, CallbackInfoReturnable<ItemStack> cir) {
         if (slot == EquipmentSlot.HEAD) {
             LivingEntity self = (LivingEntity) (Object) this;
