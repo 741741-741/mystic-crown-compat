@@ -16,12 +16,10 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
     version = project.neo_version
-
     parchment {
         mappingsVersion = project.parchment_mappings_version
         minecraftVersion = project.parchment_minecraft_version
     }
-
     runs {
         client { client() }
         server { server() }
@@ -35,7 +33,6 @@ neoForge {
             systemProperty('terminal.jline', 'true')
         }
     }
-
     mods {
         "${mod_id}" {
             sourceSet(sourceSets.main)
@@ -44,13 +41,8 @@ neoForge {
 }
 
 repositories {
-    maven {
-        url = "https://maven.tamaized.com/releases"
-    }
-    maven {
-        name = "Curios"
-        url = uri("https://maven.theillusivec4.top/")
-    }
+    maven { url = "https://maven.tamaized.com/releases" }
+    maven { url = uri("https://maven.theillusivec4.top/") }
     mavenCentral()
 }
 
@@ -59,8 +51,12 @@ dependencies {
     implementation "team-twilight:twilightforest:4.8.3345:universal"
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
-    
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+// 强制生成 refmap
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-AreferenceMap=mysticcrowncompat.refmap.json"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
