@@ -6,7 +6,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,10 @@ public class CuriosCompat {
 
                 @Override
                 public boolean canEquip(SlotContext slotContext) {
-                    return slotContext.identifier().equals("head");
+                    String identifier = slotContext.identifier();
+                    LOGGER.info("Mystic Crown Compat: canEquip called with identifier: '{}'", identifier);
+                    // 暂时无条件允许，测试能否放入
+                    return true;
                 }
 
                 @Override
