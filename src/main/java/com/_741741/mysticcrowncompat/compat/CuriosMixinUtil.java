@@ -1,10 +1,8 @@
-package com._741741.mysticcrowncompat.mixin;
+package com._741741.mysticcrowncompat.compat;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import com._741741.mysticcrowncompat.MysticCrownCompatConfig;
-import com._741741.mysticcrowncompat.compat.CompatManager;
-import com._741741.mysticcrowncompat.compat.CuriosCompat;
 
 public class CuriosMixinUtil {
     public static ItemStack getMysticCrownFromCuriosIfPresent(LivingEntity entity) {
