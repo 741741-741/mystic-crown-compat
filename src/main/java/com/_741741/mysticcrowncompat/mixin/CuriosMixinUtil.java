@@ -9,8 +9,8 @@ import com._741741.mysticcrowncompat.compat.CuriosCompat;
 public class CuriosMixinUtil {
     public static ItemStack getMysticCrownFromCuriosIfPresent(LivingEntity entity) {
         if (!CompatManager.CURIOS_LOADED || !MysticCrownCompatConfig.enableCuriosIntegration) {
-            return null;
+            return ItemStack.EMPTY;
         }
-        return CuriosCompat.findMysticCrownInCurios(entity).orElse(null);
+        return CuriosCompat.findMysticCrownInCurios(entity).orElse(ItemStack.EMPTY);
     }
 }
