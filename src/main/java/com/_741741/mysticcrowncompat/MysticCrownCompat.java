@@ -6,10 +6,13 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import com._741741.mysticcrowncompat.compat.CompatManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Mod(MysticCrownCompat.MODID)
 public class MysticCrownCompat {
     public static final String MODID = "mysticcrowncompat";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public MysticCrownCompat(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, MysticCrownCompatConfig.SPEC);
