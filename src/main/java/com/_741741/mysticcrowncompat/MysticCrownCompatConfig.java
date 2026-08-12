@@ -11,7 +11,7 @@ public class MysticCrownCompatConfig {
         .push("general");
 
     private static final ModConfigSpec.BooleanValue ENABLE_CURIOS = BUILDER
-        .comment("Enable Curios integration for Mystic Crown (requires Curios installed)")
+        .comment("Enable Curios integration for Mystic Crown")
         .define("enableCuriosIntegration", true);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
