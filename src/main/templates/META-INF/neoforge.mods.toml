@@ -99,7 +99,7 @@ config="${mod_id}.mixins.json"
 # Curios API - 必须前置
 [[dependencies.${mod_id}]]
     modId="curios"
-    type="required"
+    type="optional"
     versionRange="[9.5.1,)"
     ordering="AFTER"
     side="BOTH"
