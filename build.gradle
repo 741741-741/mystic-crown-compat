@@ -43,13 +43,8 @@ neoForge {
     }
 }
 
-// ✅ 正确的顶级 mixin 配置（与 neoForge 平级）
-mixin {
-    config "${mod_id}.mixins.json"
-    refmapName "${mod_id}.refmap.json"
-}
-
 repositories {
+    mavenCentral()
     maven {
         url = "https://maven.tamaized.com/releases"
     }
@@ -68,11 +63,45 @@ repositories {
 }
 
 dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
     implementation "team-twilight:twilightforest:4.8.3345:universal"
     runtimeOnly("mezz.jei:jei-1.21.1-neoforge:19.27.0.340")
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
+    
+    // 显式添加 Mixin 依赖和注解处理器
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // 强制指定 refmap 文件名
+    options.compilerArgs << "-ArefmapName=${mod_id}.refmap.json"
+}
+
+// 复制生成的 refmap 到资源目录（如果存在）
+tasks.register('copyRefmap') {
+    doLast {
+        def refmapFile = file("build/generated/sources/annotationProcessor/java/main/${mod_id}.refmap.json")
+        if (refmapFile.exists()) {
+            copy {
+                from refmapFile
+                into 'src/main/resources'
+            }
+        } else {
+            // 尝试其他可能位置
+            def altRefmap = file("build/tmp/compileJava/${mod_id}.refmap.json")
+            if (altRefmap.exists()) {
+                copy {
+                    from altRefmap
+                    into 'src/main/resources'
+                }
+            }
+        }
+    }
+}
+compileJava.finalizedBy copyRefmap
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
@@ -92,10 +121,6 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 }
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
 
 idea {
     module {
