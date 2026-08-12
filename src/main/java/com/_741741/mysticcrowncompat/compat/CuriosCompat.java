@@ -15,7 +15,7 @@ import twilightforest.init.TFItems;
 
 import java.util.Optional;
 
-@EventBusSubscriber(modid = MysticCrownCompat.MODID)
+@EventBusSubscriber(modid = "mysticcrowncompat")
 public class CuriosCompat {
     public static final String SLOT_HEAD = "head";
 
