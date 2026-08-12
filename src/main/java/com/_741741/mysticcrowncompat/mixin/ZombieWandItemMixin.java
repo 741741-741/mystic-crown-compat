@@ -14,6 +14,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import twilightforest.entity.monster.LoyalZombie;
 import twilightforest.init.TFEntities;
 import twilightforest.init.TFItems;
@@ -23,6 +24,11 @@ import twilightforest.util.TFItemStackUtils;
 
 @Mixin(ZombieWandItem.class)
 public class ZombieWandItemMixin {
+    @Shadow
+    protected BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
+        return null;
+    }
+
     @Overwrite
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
@@ -30,7 +36,7 @@ public class ZombieWandItemMixin {
             return InteractionResultHolder.fail(stack);
         }
         if (!level.isClientSide()) {
-            BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+            BlockHitResult result = this.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
             if (result.getType() != HitResult.Type.MISS) {
                 LoyalZombie zombie = TFEntities.LOYAL_ZOMBIE.get().create(level);
                 zombie.moveTo(result.getLocation());
@@ -58,8 +64,5 @@ public class ZombieWandItemMixin {
             }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
-    }
-    private BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
-        return net.minecraft.world.entity.player.Player.getPlayerPOVHitResult(level, player, fluid);
     }
 }
