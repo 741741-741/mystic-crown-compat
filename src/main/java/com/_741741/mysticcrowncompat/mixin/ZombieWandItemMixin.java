@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -14,7 +15,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import twilightforest.entity.monster.LoyalZombie;
 import twilightforest.init.TFEntities;
 import twilightforest.init.TFItems;
@@ -24,11 +24,6 @@ import twilightforest.util.TFItemStackUtils;
 
 @Mixin(ZombieWandItem.class)
 public class ZombieWandItemMixin {
-    @Shadow
-    protected BlockHitResult getPlayerPOVHitResult(Level level, Player player, ClipContext.Fluid fluid) {
-        return null;
-    }
-
     @Overwrite
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
@@ -36,7 +31,7 @@ public class ZombieWandItemMixin {
             return InteractionResultHolder.fail(stack);
         }
         if (!level.isClientSide()) {
-            BlockHitResult result = this.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+            BlockHitResult result = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
             if (result.getType() != HitResult.Type.MISS) {
                 LoyalZombie zombie = TFEntities.LOYAL_ZOMBIE.get().create(level);
                 zombie.moveTo(result.getLocation());
