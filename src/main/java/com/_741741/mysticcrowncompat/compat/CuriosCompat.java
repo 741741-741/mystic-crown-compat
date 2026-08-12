@@ -37,7 +37,6 @@ public class CuriosCompat {
                 public boolean canEquip(SlotContext slotContext) {
                     String identifier = slotContext.identifier();
                     LOGGER.info("Mystic Crown Compat: canEquip called with identifier: '{}'", identifier);
-                    // 暂时无条件允许，测试能否放入
                     return true;
                 }
 
