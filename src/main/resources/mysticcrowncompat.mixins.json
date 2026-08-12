@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "mysticcrowncompat.refmap.json",
   "mixins": [
-    "LivingEntityMixin"
+    "TwilightWandItemMixin",
+    "ZombieWandItemMixin",
+    "LifedrainScepterItemMixin"
   ],
   "client": [],
   "server": [],
