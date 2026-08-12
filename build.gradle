@@ -59,6 +59,9 @@ dependencies {
     implementation "team-twilight:twilightforest:4.8.3345:universal"
     compileOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1:api"
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1"
+    
+    // Mixin annotation processor
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
