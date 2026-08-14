@@ -3,14 +3,18 @@
   "minVersion": "0.8",
   "package": "com._741741.mysticcrowncompat.mixin",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "mysticcrowncompat.refmap.json",
   "mixins": [
     "TwilightWandItemMixin",
-    "ZombieWandItemMixin"
+    "ZombieWandItemMixin",
+    "LifedrainScepterItemMixin",
+    "FortificationShieldAttachmentMixin"
   ],
   "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

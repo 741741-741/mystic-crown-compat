@@ -5,8 +5,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(MysticCrownCompat.MODID)
 public class MysticCrownCompat {
@@ -14,11 +12,6 @@ public class MysticCrownCompat {
 
     public MysticCrownCompat(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, MysticCrownCompatConfig.SPEC);
-        modEventBus.addListener(this::commonSetup);
         CommonEventManager.init(modEventBus);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        CompatManager.init();
     }
 }

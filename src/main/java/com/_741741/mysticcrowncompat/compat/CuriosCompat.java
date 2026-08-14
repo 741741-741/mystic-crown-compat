@@ -1,11 +1,8 @@
 package com._741741.mysticcrowncompat.compat;
 
-import com._741741.mysticcrowncompat.MysticCrownCompat;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +15,13 @@ import twilightforest.init.TFItems;
 
 import java.util.Optional;
 
-@EventBusSubscriber(modid = MysticCrownCompat.MODID)
+/**
+ * 为神秘王冠注册 Curios 物品能力,并提供首饰栏查找工具。
+ * 通过 CommonEventManager 手动注册到 mod bus,避免与 @EventBusSubscriber 重复注册。
+ */
 public class CuriosCompat {
     private static final Logger LOGGER = LoggerFactory.getLogger(CuriosCompat.class);
 
-    @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         LOGGER.info("Mystic Crown Compat: Registering Mystic Crown as Curios item!");
         event.registerItem(
@@ -35,9 +34,7 @@ public class CuriosCompat {
 
                 @Override
                 public boolean canEquip(SlotContext slotContext) {
-                    String identifier = slotContext.identifier();
-                    LOGGER.info("Mystic Crown Compat: canEquip called with identifier: '{}'", identifier);
-                    return true;
+                    return "head".equals(slotContext.identifier());
                 }
 
                 @Override
