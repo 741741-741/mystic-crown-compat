@@ -2,12 +2,15 @@ package com._741741.mysticcrowncompat.event;
 
 import com._741741.mysticcrowncompat.MysticCrownCompat;
 import com._741741.mysticcrowncompat.MysticCrownCompatConfig;
+import com._741741.mysticcrowncompat.compat.CuriosMixinUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import twilightforest.init.TFDamageTypes;
 
 public class CommonEventHandler {
     /**
@@ -26,5 +29,15 @@ public class CommonEventHandler {
             true,
             Pack.Position.TOP
         );
+    }
+
+    /**
+     * 装备神秘王冠(头部或首饰栏)时免疫巫妖炸弹(LichBomb)的爆炸伤害。
+     * LICH_BOMB 伤害类型仅由巫妖炸弹产生,因此不会误伤其他伤害来源。
+     */
+    public static void handleLivingDamagePre(LivingDamageEvent.Pre event) {
+        if (event.getSource().is(TFDamageTypes.LICH_BOMB) && CuriosMixinUtil.isWearingMysticCrown(event.getEntity())) {
+            event.setNewDamage(0.0F);
+        }
     }
 }

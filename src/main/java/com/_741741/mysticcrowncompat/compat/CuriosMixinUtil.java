@@ -5,13 +5,27 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import twilightforest.init.TFItems;
 
 public class CuriosMixinUtil {
+    /** 标记王冠召唤的僵尸,用于攻击力等增益判断(写入实体 persistentData) */
+    public static final String CROWN_SUMMONED_TAG = "mysticcrowncompat:crown_summoned";
+
     public static ItemStack getMysticCrownFromCuriosIfPresent(LivingEntity entity) {
         if (!CompatManager.CURIOS_LOADED || !MysticCrownCompatConfig.enableCuriosIntegration) {
             return ItemStack.EMPTY;
         }
         return CuriosCompat.findMysticCrownInCurios(entity).orElse(ItemStack.EMPTY);
+    }
+
+    /**
+     * 判断实体是否佩戴神秘王冠:头部装备位或首饰栏(head 槽)均可。
+     */
+    public static boolean isWearingMysticCrown(LivingEntity entity) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TFItems.MYSTIC_CROWN)) {
+            return true;
+        }
+        return !getMysticCrownFromCuriosIfPresent(entity).isEmpty();
     }
 
     /**

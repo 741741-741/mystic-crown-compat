@@ -9,6 +9,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -17,7 +19,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import twilightforest.entity.monster.LoyalZombie;
 import twilightforest.init.TFEntities;
-import twilightforest.init.TFItems;
 import twilightforest.init.TFSounds;
 import twilightforest.item.ZombieWandItem;
 import twilightforest.util.TFItemStackUtils;
@@ -41,14 +42,36 @@ public class ZombieWandItemMixin {
                 zombie.spawnAnim();
                 zombie.setTame(true, false);
                 zombie.setOwnerUUID(player.getUUID());
-                zombie.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 1));
-                boolean hasCrown = player.getItemBySlot(EquipmentSlot.HEAD).is(TFItems.MYSTIC_CROWN);
-                if (!hasCrown) {
-                    ItemStack crownInCurios = CuriosMixinUtil.getMysticCrownFromCuriosIfPresent(player);
-                    hasCrown = !crownInCurios.isEmpty();
-                }
+                boolean hasCrown = CuriosMixinUtil.isWearingMysticCrown(player);
+                // 佩戴王冠时力量2持续 3 分钟(3600 tick),否则保持原版 60 秒
+                zombie.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, hasCrown ? 3600 : 1200, 1));
                 if (hasCrown && level.getRandom().nextFloat() <= 0.1f) {
                     zombie.setBaby(true);
+                }
+                // 佩戴神秘王冠时:小僵尸装备全套皮革装备和一把击退2的木棍;普通僵尸 50% 概率随机装备一件皮革装备
+                if (hasCrown) {
+                    // 标记王冠召唤的僵尸,使其攻击力变为 4 点(见 LoyalZombieMixin)
+                    zombie.getPersistentData().putBoolean(CuriosMixinUtil.CROWN_SUMMONED_TAG, true);
+                    if (zombie.isBaby()) {
+                        zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
+                        zombie.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+                        zombie.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
+                        zombie.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
+                        ItemStack knockbackStick = new ItemStack(Items.STICK);
+                        knockbackStick.enchant(level.holderOrThrow(Enchantments.KNOCKBACK), 2);
+                        zombie.setItemSlot(EquipmentSlot.MAINHAND, knockbackStick);
+                    } else if (level.getRandom().nextFloat() < 0.5f) {
+                        EquipmentSlot[] armorSlots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+                        EquipmentSlot randomSlot = armorSlots[level.getRandom().nextInt(armorSlots.length)];
+                        Item armorItem = switch (randomSlot) {
+                            case HEAD -> Items.LEATHER_HELMET;
+                            case CHEST -> Items.LEATHER_CHESTPLATE;
+                            case LEGS -> Items.LEATHER_LEGGINGS;
+                            case FEET -> Items.LEATHER_BOOTS;
+                            default -> Items.AIR;
+                        };
+                        zombie.setItemSlot(randomSlot, new ItemStack(armorItem));
+                    }
                 }
                 level.addFreshEntity(zombie);
                 level.gameEvent(player, net.minecraft.world.level.gameevent.GameEvent.ENTITY_PLACE, result.getBlockPos());

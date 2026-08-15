@@ -7,7 +7,8 @@
     "TwilightWandItemMixin",
     "ZombieWandItemMixin",
     "LifedrainScepterItemMixin",
-    "FortificationShieldAttachmentMixin"
+    "FortificationShieldAttachmentMixin",
+    "LoyalZombieMixin"
   ],
   "client": [],
   "server": [],
